@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075c42">
+<title>Spermatophyta Explorer</title>
+<style>
+:root{--g:#075c42;--g2:#16804f;--gold:#f0c343;--bg:#eef7ef;--ink:#173b2b;--muted:#607468}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1050px;margin:auto;padding:10px}.hero{background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;padding:24px 18px;border-radius:0 0 24px 24px}
+h1{font-size:clamp(27px,8vw,48px);margin:7px 0}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.nav button,button{border:0;border-radius:11px;padding:11px;background:var(--g);color:white;font-weight:bold}
+.nav button{font-size:12px}.nav .active{background:var(--gold);color:var(--ink)}
+.page{display:none;background:white;border-radius:18px;padding:17px;box-shadow:0 4px 18px #0001}.page.active{display:block}
+.card{background:#f8fcf9;border:1px solid #dcecdf;border-radius:15px;padding:14px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #b8cdbd;border-radius:9px;margin:5px 0}
+textarea{min-height:110px}.gold{background:var(--gold);color:var(--ink)}.red{background:#a43b31}
+.muted{color:var(--muted);font-size:14px}.msg{padding:10px;border-radius:10px;margin-top:8px;background:#edf8ef}
+.photo{width:100%;max-height:280px;object-fit:contain;border-radius:12px;background:#eaf3ec}
+.result{border:1px solid #dcecdf;border-radius:12px;padding:11px;margin-top:9px}.candidate{padding:9px;border-bottom:1px solid #e4eee6}
+.candidate:last-child{border:0}.tag{display:inline-block;background:#e5f3e8;padding:5px 8px;border-radius:14px;margin:3px;font-size:12px}
+.score{font-size:38px;font-weight:bold;color:var(--g);text-align:center}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #dcecdf;padding:7px;text-align:left}th{background:#eaf5ed}
+footer{text-align:center;color:#617469;padding:20px}.hidden{display:none!important}
+@media(min-width:700px){.nav{grid-template-columns:repeat(6,1fr)}} 
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div>🌿 BIOLOGI KELAS X</div><h1>SPERMATOPHYTA EXPLORER</h1><div>Eksplorasi • Identifikasi • Klasifikasi • Rangkuman</div></header>
+<nav class="nav">
+<button data-page="home" onclick="show('home')">🏠 Beranda</button><button data-page="literasi" onclick="show('literasi')">📖 Literasi</button>
+<button data-page="eksplorasi" onclick="show('eksplorasi')">📷 Eksplorasi</button><button data-page="kelompok" onclick="show('kelompok')">🌱 Kelompok</button>
+<button data-page="ringkasan" onclick="show('ringkasan')">📊 Ringkasan</button><button data-page="canva" onclick="show('canva')">🎨 Canva</button>
+</nav>
+
+<section id="home" class="page active">
+<h2>Identitas Peserta</h2>
+<div class="grid"><div><label>Nama</label><input id="nama" placeholder="Nama lengkap"></div><div><label>Kelas</label><input id="kelas" placeholder="X.10"></div><div><label>Kelompok</label><input id="kelompok" placeholder="Kelompok 3"></div></div>
+<button class="gold" onclick="saveIdentity();show('literasi')">SIMPAN & MULAI →</button>
+<div class="card"><b>Alur:</b> Literasi → Eksplorasi → Identifikasi → Pengelompokan → Ringkasan → Canva.</div>
+<div class="card"><h3>Status Server</h3><p id="serverStatus">Memeriksa...</p><button onclick="checkServer()">CEK SERVER</button></div>
+</section>
+
+<section id="literasi" class="page">
+<h2>📖 Literasi: Mengenal Spermatophyta</h2>
+<div class="card">
+<p><b>Spermatophyta</b> adalah tumbuhan yang berkembang biak dengan menghasilkan biji. Dalam pembelajaran ini kita mengenal <b>Gymnospermae</b> dan <b>Angiospermae</b>.</p>
+<h3>🌲 Gymnospermae</h3><p>Bakal biji tidak berada di dalam ovarium sehingga tidak membentuk buah sejati. Contoh: <i>Cycas</i>, <i>Pinus</i>, <i>Gnetum</i>, dan <i>Ginkgo</i>.</p>
+<h3>🌼 Angiospermae</h3><p>Bakal biji berada di dalam ovarium dan berkaitan dengan struktur bunga. Dalam pembelajaran dasar dibedakan menjadi <b>Monokotil</b> dan <b>Dikotil/eudikot</b>.</p>
+<p><span class="tag">Biji terbuka → Gymnospermae</span><span class="tag">1 kotiledon → Monokotil</span><span class="tag">2 kotiledon → Dikotil/eudikot</span></p>
+</div>
+<button class="gold" onclick="show('eksplorasi')">LANJUT EKSPLORASI →</button>
+</section>
+
+<section id="eksplorasi" class="page">
+<h2>📷 Eksplorasi Lapangan</h2>
+<p class="muted">Ambil foto tanaman menggunakan kamera HP. Maksimal 50 tanaman. Untuk identifikasi AI, foto harus menampilkan satu tanaman dengan jelas.</p>
+<div class="card">
+<label>Foto tanaman</label>
+<input id="photo" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+<label>Nama sementara</label><input id="localName" placeholder="Misalnya mangga">
+<label>Bagian tanaman</label><select id="organ"><option value="auto">Auto</option><option value="leaf">Daun</option><option value="flower">Bunga</option><option value="fruit">Buah</option><option value="bark">Kulit batang</option></select>
+<button class="gold" onclick="addPlant()">+ TAMBAH TANAMAN</button><p id="addMsg" class="muted"></p>
+</div>
+<h3>Tanaman: <span id="count">0</span>/50</h3><div id="plants"></div>
+</section>
+
+<section id="kelompok" class="page"><h2>🌱 Pengelompokan</h2><p class="muted">AI hanya memberikan rekomendasi. Periksa ciri tanaman sebelum menetapkan kelompok.</p><div id="groupList"></div><button class="gold" onclick="saveGroups()">SIMPAN</button></section>
+
+<section id="ringkasan" class="page">
+<h2>📊 Ringkasan</h2><div class="grid">
+<div class="card"><h3>Total</h3><div id="total" class="score">0</div></div><div class="card"><h3>Gymnospermae</h3><div id="gym" class="score">0</div></div>
+<div class="card"><h3>Monokotil</h3><div id="mono" class="score">0</div></div><div class="card"><h3>Dikotil</h3><div id="diko" class="score">0</div></div>
+</div><div class="card"><h3>Rekap</h3><div id="table"></div></div>
+<div class="card"><textarea id="summary" placeholder="Tuliskan kesimpulan..."></textarea><button onclick="saveSummary()">SIMPAN KESIMPULAN</button></div>
+</section>
+
+<section id="canva" class="page"><h2>🎨 Tahap Canva</h2><div class="card"><p>Buat infografis “Eksplorasi Spermatophyta di Lingkungan Sekitar” berdasarkan foto, nama ilmiah, kelompok, jumlah, ciri, dan kesimpulan.</p><button class="gold" onclick="location.href='https://www.canva.com/'">BUKA CANVA ↗</button></div></section>
+<footer>Spermatophyta Explorer • Versi Mobile/Web</footer>
+</div>
+
+<script>
+const KEY='spermaMobileData';let data=JSON.parse(localStorage.getItem(KEY)||'{"identity":{},"plants":[],"summary":""}');
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function val(id){return document.getElementById(id).value.trim()}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='eksplorasi')renderPlants();if(id==='kelompok')renderGroups();if(id==='ringkasan')renderSummary();scrollTo(0,0)}
+function saveIdentity(){data.identity={nama:val('nama'),kelas:val('kelas'),kelompok:val('kelompok')};save();alert('Identitas tersimpan')}
+async function checkServer(){try{let r=await fetch('/api/health');let j=await r.json();document.getElementById('serverStatus').textContent=j.status==='ok'?'✅ Server aktif':'⚠️ Server merespons';}catch(e){document.getElementById('serverStatus').textContent='❌ Server belum terhubung'}}
+function compress(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=e=>{let im=new Image();im.onload=()=>{let s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.78))};im.onerror=reject;im.src=e.target.result};r.onerror=reject;r.readAsDataURL(file)})}
+async function addPlant(){if(data.plants.length>=50)return msg('addMsg','Maksimal 50 tanaman.');let f=document.getElementById('photo').files[0];if(!f)return msg('addMsg','Pilih/foto tanaman terlebih dahulu.');msg('addMsg','Memproses foto...');try{let photo=await compress(f);data.plants.push({id:Date.now()+Math.random(),photo,local:val('localName'),organ:val('organ'),ai:'',family:'',confidence:null,group:'',candidates:[]});save();renderPlants();document.getElementById('photo').value='';document.getElementById('localName').value='';msg('addMsg','Tanaman berhasil ditambahkan.')}catch(e){msg('addMsg','Foto gagal diproses.')}}
+function msg(id,t){document.getElementById(id).textContent=t}
+function renderPlants(){document.getElementById('count').textContent=data.plants.length;let b=document.getElementById('plants');if(!data.plants.length){b.innerHTML='<div class="card muted">Belum ada tanaman.</div>';return}b.innerHTML=data.plants.map((p,i)=>`<div class="card"><img class="photo" src="${p.photo}"><h3>#${i+1} ${esc(p.local||'Tanaman')}</h3><p>${p.ai?'<b>'+esc(p.ai)+'</b>':'Belum diidentifikasi'} ${p.confidence!=null?'<span class="tag">'+(p.confidence*100).toFixed(1)+'%</span>':''}</p><button class="gold" onclick="identify(${i})">🤖 IDENTIFIKASI AI</button> <button class="red" onclick="removePlant(${i})">HAPUS</button><div id="r${p.id}"></div></div>`).join('')}
+async function identify(i){let p=data.plants[i],r=document.getElementById('r'+p.id);r.innerHTML='<div class="result">⏳ Mengidentifikasi...</div>';try{let blob=await (await fetch(p.photo)).blob(),fd=new FormData();fd.append('image',blob,'plant.jpg');fd.append('organ',p.organ||'auto');let res=await fetch('/api/identify',{method:'POST',body:fd});let j=await res.json();if(!res.ok)throw Error(j.detail||'Identifikasi gagal');p.ai=j.bestMatch||'';p.family=j.family||'';p.confidence=j.confidence??null;p.candidates=j.results||[];if(!p.group)p.group=j.suggestedGroup||'';save();renderPlants();}catch(e){r.innerHTML='<div class="result">❌ '+esc(e.message)+'<br><small>Pastikan aplikasi dibuka melalui server, bukan file HTML langsung.</small></div>'}}
+function removePlant(i){if(confirm('Hapus tanaman ini?')){data.plants.splice(i,1);save();renderPlants()}}
+function renderGroups(){let b=document.getElementById('groupList');if(!data.plants.length){b.innerHTML='<div class="card muted">Belum ada tanaman.</div>';return}b.innerHTML=data.plants.map((p,i)=>`<div class="card"><b>#${i+1} ${esc(p.ai||p.local||'Tanaman')}</b><select id="g${p.id}"><option value="">Pilih kelompok</option><option ${p.group==='Gymnospermae'?'selected':''}>Gymnospermae</option><option ${p.group==='Monokotil'?'selected':''}>Monokotil</option><option ${p.group==='Dikotil'?'selected':''}>Dikotil</option></select></div>`).join('')}
+function saveGroups(){data.plants.forEach(p=>p.group=document.getElementById('g'+p.id)?.value||'');save();alert('Pengelompokan tersimpan');renderSummary()}
+function renderSummary(){let t=data.plants;document.getElementById('total').textContent=t.length;document.getElementById('gym').textContent=t.filter(p=>p.group==='Gymnospermae').length;document.getElementById('mono').textContent=t.filter(p=>p.group==='Monokotil').length;document.getElementById('diko').textContent=t.filter(p=>p.group==='Dikotil').length;document.getElementById('summary').value=data.summary||'';document.getElementById('table').innerHTML='<table><tr><th>No</th><th>Tanaman</th><th>Nama ilmiah</th><th>Kelompok</th></tr>'+t.map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.local||'-')}</td><td>${esc(p.ai||'-')}</td><td>${esc(p.group||'-')}</td></tr>`).join('')+'</table>'}
+function saveSummary(){data.summary=val('summary');save();alert('Kesimpulan tersimpan')}
+['nama','kelas','kelompok'].forEach(k=>{if(data.identity[k])document.getElementById(k).value=data.identity[k]});checkServer();
+</script>
+</body></html>
